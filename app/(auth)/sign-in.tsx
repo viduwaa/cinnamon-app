@@ -104,7 +104,7 @@ export default function SignIn() {
                         <MainButton
                             className="w-4/5"
                             text="Sign In"
-                            onPress={() => router.push("/(tabs)")}
+                            onPress={() => router.push("/(tabs)/farmer")}
                         >
                             
                         </MainButton>
