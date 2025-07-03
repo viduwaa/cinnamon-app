@@ -104,13 +104,15 @@ export default function SignIn() {
                         <MainButton
                             className="w-4/5"
                             text="Sign In"
-                            onPress={() => router.push("/(tabs)/farmer")}
-                        >
-                            
-                        </MainButton>
+                            onPress={() => router.replace("/(tabs)/farmer")}
+                        ></MainButton>
                         <View className="flex flex-row mt-2">
-                            <Text className="text-lg">Don't have an account? </Text>
-                            <Pressable onPress={()=>router.push("/(auth)/sign-up")}>
+                            <Text className="text-lg">
+                                Don't have an account?{" "}
+                            </Text>
+                            <Pressable
+                                onPress={() => router.push("/(auth)/sign-up")}
+                            >
                                 <Text className="underline text-lg text-[#A97C37]">{`\tSign Up`}</Text>
                             </Pressable>
                         </View>
