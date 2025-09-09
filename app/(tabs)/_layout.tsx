@@ -1,51 +1,63 @@
-// app/(tabs)/_layout.tsx
 import { Tabs } from "expo-router";
-import { Tractor, Truck, UserRoundPen ,Boxes} from "lucide-react-native";
+import { BarChart3, Map, UserRoundPen } from "lucide-react-native";
+import { useAuth } from "@/contexts/AuthContext";
+import { View, ActivityIndicator } from "react-native";
 
 export default function TabsLayout() {
-    return (
-        <Tabs
-            screenOptions={{
-                headerShown: false,
-                tabBarStyle: {
-                    width: "90%",
-                    margin: "auto",
-                    borderRadius: 15,
-                    bottom: 10,
-                    height: 60,
-                    backgroundColor: "#5dd969",
-                    paddingTop:5
-                },
-            }}
-        >
-            <Tabs.Screen
-                name="farmer"
-                options={{
-                    title: "Farmer",
-                    tabBarIcon: ({ focused }) => <Tractor />,
-                }}
-            />
-            <Tabs.Screen
-                name="collector"
-                options={{
-                    title: "Collector",
-                    tabBarIcon: ({ focused }) => <Boxes />,
-                }}
-            />
-            <Tabs.Screen
-                name="transport"
-                options={{
-                    title: "Transport",
-                    tabBarIcon: ({ focused }) => <Truck />,
-                }}
-            />
-            <Tabs.Screen
-                name="profile"
-                options={{
-                    title: "Profile",
-                    tabBarIcon: ({ focused }) => <UserRoundPen />,
-                }}
-            />
-        </Tabs>
-    );
+  const { role } = useAuth();
+
+  return (
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "black",
+        tabBarActiveBackgroundColor: "green",
+        tabBarStyle: {
+          width: "90%",
+          marginHorizontal: "auto",
+          borderRadius: 15,
+          bottom: 10,
+          height: 60,
+          backgroundColor: "#5dd969",
+        },
+        tabBarItemStyle: {
+          borderRadius: 10,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "bold",
+        },
+        headerShown: false,
+      }}
+    >
+      <Tabs.Screen
+        name="dashboard"
+        options={{
+          title: "Dashboard",
+          tabBarIcon: ({ color, size }) => (
+            <BarChart3 color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="location"
+        options={{
+          title: "Location",
+          tabBarIcon: ({ color, size }) => (
+            <Map color={color} size={size} />
+          ),
+          href: role === "farmer" ? "/(tabs)/location" : null,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <UserRoundPen color={color} size={size} />
+          ),
+        }}
+      />
+    </Tabs>
+  );
 }

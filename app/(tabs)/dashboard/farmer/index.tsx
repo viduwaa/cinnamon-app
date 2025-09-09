@@ -27,7 +27,7 @@ export default function Farmer() {
 
     return (
         <>
-            <ScrollView className="flex-1 bg-gray-100">
+            <ScrollView className="flex-1 bg-primary">
                 <StatusBar barStyle="dark-content" backgroundColor="#f5f5f5" />
 
                 {/* Header with Logo */}
@@ -304,16 +304,21 @@ export default function Farmer() {
                 <View className="px-5 mt-6">
                     <TouchableOpacity
                         className="bg-amber-900 flex-row justify-between items-center ml-10 w-4/5 p-4 rounded-lg mb-4 shadow-md"
-                        onPress={() => router.push("/(tabs)/farmer/AddFarmer")}
+                        onPress={() =>
+                            router.push("/(tabs)/dashboard/farmer/AddFarmer")
+                        }
                     >
                         <Text className="text-white text-sm font-semibold text-justify">
-                            Add Farmer Information
+                            Add Farm Information
                         </Text>
                         <Text className="text-white text-lg font-bold">→</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity className="bg-amber-900 flex-row justify-between items-center ml-10 w-4/5 p-4 rounded-lg mb-4 shadow-md"
-                        onPress={() => router.push("/(tabs)/farmer/AddBatch")}
+                    <TouchableOpacity
+                        className="bg-amber-900 flex-row justify-between items-center ml-10 w-4/5 p-4 rounded-lg mb-4 shadow-md"
+                        onPress={() =>
+                            router.push("/(tabs)/dashboard/farmer/AddBatch")
+                        }
                     >
                         <Text className="text-white text-sm font-semibold text-justify">
                             Add Batch Information
@@ -321,22 +326,30 @@ export default function Farmer() {
                         <Text className="text-white text-lg font-bold">→</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity className="bg-amber-900 flex-row justify-between items-center ml-10 w-4/5 p-4 rounded-lg mb-4 shadow-md">
+                    <TouchableOpacity
+                        className="bg-amber-900 flex-row justify-between items-center ml-10 w-4/5 p-4 rounded-lg mb-4 shadow-md"
+                        onPress={() =>
+                            router.push("/(tabs)/dashboard/farmer/AddHarvest")
+                        }
+                    >
                         <Text className="text-white text-sm font-semibold text-justify">
                             Add Harvesting Information
                         </Text>
                         <Text className="text-white text-lg font-bold">→</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity className="bg-amber-900 w-4/5 ml-10 mb-12 rounded-lg items-center shadow-md pt-4 h-12">
+                    <TouchableOpacity
+                        className="bg-amber-900 w-4/5 ml-10 mb-12 rounded-lg items-center shadow-md pt-4 h-12"
+                        onPress={() =>
+                            router.push("/(tabs)/dashboard/farmer/QRCode")
+                        }
+                    >
                         <Text className="text-white text-sm font-semibold p-1">
                             Generate QR
                         </Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-
-           
         </>
     );
 }

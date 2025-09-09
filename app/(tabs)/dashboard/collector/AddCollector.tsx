@@ -1,4 +1,4 @@
-// screens/AddFarmer.tsx
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import DatePickerForm from "@/components/DatePicker";
 import { useRouter } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
@@ -12,14 +12,12 @@ import {
     View,
 } from "react-native";
 
-export default function AddFarmer() {
+export default function AddCollector() {
     const [formData, setFormData] = useState({
-        farmName: "",
-        dateOfPlanting: new Date(),
-        seedingSource: "",
-        fertilizer: "",
-        pesticides: "",
-        organicCertified: "",
+        collectorName: "",
+        collectionDate: new Date(),
+        batchID: "",
+        quantityKG: "",
     });
 
     const router = useRouter();
@@ -28,8 +26,17 @@ export default function AddFarmer() {
         setFormData((prev) => ({ ...prev, [field]: value }));
     };
 
-    const handleSubmit = () => {
-        Alert.alert("Form Submitted", JSON.stringify(formData, null, 2));
+    const handleNext = async () => {
+        try {
+            // Save collector data to AsyncStorage
+            await AsyncStorage.setItem('collectorData', JSON.stringify(formData));
+            Alert.alert("Success", "Collector data saved successfully!");
+            // Navigate to AddTransporter screen
+            router.push("/(tabs)/dashboard/collector/AddTransporter");
+        } catch (error) {
+            console.error('Error saving collector data:', error);
+            Alert.alert("Error", "Failed to save collector data.");
+        }
     };
 
     return (
@@ -42,35 +49,35 @@ export default function AddFarmer() {
                 </View>
                 <View className="flex items-center h-[80px] mt-10">
                     <Text className="text-3xl font-bold">
-                        Cultivation Stage
+                        Collector Stage
                     </Text>
-                    <Text className="text-2xl">Farm Information</Text>
+                    <Text className="text-2xl">Collection Information</Text>
                 </View>
                 <View className="w-[90%] flex gap-4 items-start justify-center mx-auto pb-10">
                     <View className="w-full">
                         <Text className="mb-2 text-lg font-semibold">
-                            Farm Name
+                            Collector Name
                         </Text>
                         <TextInput
                             className="ml-2 py-4 text-lg w-[90%] border rounded-lg p-4"
-                            placeholder="Farm Name"
-                            value={formData.farmName}
+                            placeholder="Collector Name"
+                            value={formData.collectorName}
                             onChangeText={(text) =>
-                                handleInputChange("farmName", text)
+                                handleInputChange("collectorName", text)
                             }
                         />
                     </View>
 
                     <View className="w-full">
-                        <Text className=" text-lg font-semibold">
-                            Date of Planting
+                        <Text className="mb-2 text-lg font-semibold">
+                            Collection Date
                         </Text>
                         <DatePickerForm
-                            date={formData.dateOfPlanting}
+                            date={formData.collectionDate}
                             onChange={(newDate) =>
                                 setFormData({
                                     ...formData,
-                                    dateOfPlanting: newDate,
+                                    collectionDate: newDate,
                                 })
                             }
                         />
@@ -78,56 +85,38 @@ export default function AddFarmer() {
 
                     <View className="w-full">
                         <Text className="mb-2 text-lg font-semibold">
-                            Seeding Source
+                            Batch IDs Collected
                         </Text>
                         <TextInput
                             className="ml-2 py-4 text-lg w-[90%] border rounded-lg p-4"
-                            placeholder="Seeding Source"
-                            value={formData.seedingSource}
+                            placeholder="Batch ID"
+                            value={formData.batchID}
                             onChangeText={(text) =>
-                                handleInputChange("seedingSource", text)
+                                handleInputChange("batchID", text)
                             }
                         />
                     </View>
 
                     <View className="w-full">
                         <Text className="mb-2 text-lg font-semibold">
-                            Cultivation Practices
+                            Total Quantity Collected (kg)
                         </Text>
-                        <View className="flex gap-3 items-end">
-                            <TextInput
-                                className="ml-2 py-4 text-lg w-[90%] border rounded-lg p-4"
-                                placeholder="Type of Fertilizer used"
-                                value={formData.fertilizer}
-                                onChangeText={(text) =>
-                                    handleInputChange("fertilizer", text)
-                                }
-                            />
-                            <TextInput
-                                className="ml-2 py-4 text-lg w-[90%] border rounded-lg p-4"
-                                placeholder="Pesticides Used"
-                                value={formData.pesticides}
-                                onChangeText={(text) =>
-                                    handleInputChange("pesticides", text)
-                                }
-                            />
-                            <TextInput
-                                className="ml-2 py-4 text-lg w-[90%] border rounded-lg p-4"
-                                placeholder="Organic Certification (Yes  |   No)"
-                                value={formData.organicCertified}
-                                onChangeText={(text) =>
-                                    handleInputChange("organicCertified", text)
-                                }
-                            />
-                        </View>
+                        <TextInput
+                            className="ml-2 py-4 text-lg w-[90%] border rounded-lg p-4"
+                            placeholder="Quantity in KG"
+                            value={formData.quantityKG}
+                            onChangeText={(text) =>
+                                handleInputChange("quantityKG", text)
+                            }
+                        />
                     </View>
 
                     <Pressable
-                        onPress={handleSubmit}
+                        onPress={handleNext}
                         className="bg-blue-500 p-4 rounded mt-6 ml-auto"
                     >
                         <Text className="text-xl font-bold text-white">
-                            Submit
+                            Next
                         </Text>
                     </Pressable>
                 </View>

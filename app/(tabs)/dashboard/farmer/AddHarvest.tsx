@@ -1,4 +1,4 @@
-// screens/AddFarmer.tsx
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import DatePickerForm from "@/components/DatePicker";
 import { useRouter } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
@@ -12,14 +12,12 @@ import {
     View,
 } from "react-native";
 
-export default function AddBatch() {
+export default function AddHarvest() {
     const [formData, setFormData] = useState({
         farmName: "",
         dateOfPlanting: new Date(),
-        seedingSource: "",
-        fertilizer: "",
-        pesticides: "",
-        organicCertified: "",
+        harvestMethod: "",
+        quantity: "",
     });
 
     const router = useRouter();
@@ -28,8 +26,14 @@ export default function AddBatch() {
         setFormData((prev) => ({ ...prev, [field]: value }));
     };
 
-    const handleSubmit = () => {
-        Alert.alert("Form Submitted", JSON.stringify(formData, null, 2));
+    const handleSubmit = async () => {
+        try {
+            await AsyncStorage.setItem('harvestData', JSON.stringify(formData));
+            Alert.alert("Success", "Harvest data saved successfully!");
+        } catch (error) {
+            console.error('Error saving harvest data:', error);
+            Alert.alert("Error", "Failed to save harvest data.");
+        }
     };
 
     return (
@@ -45,9 +49,9 @@ export default function AddBatch() {
                 </View>
                 <View className="flex items-center h-[80px] mt-10">
                     <Text className="text-3xl font-bold">
-                        Cultivation Stage
+                        Harvesting Stage
                     </Text>
-                    <Text className="text-2xl">Batch Information</Text>
+                    <Text className="text-2xl">Harvesting Information</Text>
                 </View>
                 <View className="w-[90%] flex gap-4 items-start justify-center mx-auto pb-10">
                     <View className="w-full">
@@ -66,21 +70,7 @@ export default function AddBatch() {
 
                     <View className="w-full">
                         <Text className="mb-2 text-lg font-semibold">
-                            Number of Trees
-                        </Text>
-                        <TextInput
-                            className="ml-2 py-4 text-lg w-[90%] border rounded-lg p-4"
-                            placeholder="Trees"
-                            value={formData.seedingSource}
-                            onChangeText={(text) =>
-                                handleInputChange("seedingSource", text)
-                            }
-                        />
-                    </View>
-
-                    <View className="w-full">
-                        <Text className="mb-2 text-lg font-semibold">
-                            Expected Harvest Date
+                            Harvest Date
                         </Text>
                         <DatePickerForm
                             date={formData.dateOfPlanting}
@@ -89,6 +79,34 @@ export default function AddBatch() {
                                     ...formData,
                                     dateOfPlanting: newDate,
                                 })
+                            }
+                        />
+                    </View>
+
+                    <View className="w-full">
+                        <Text className="mb-2 text-lg font-semibold">
+                            Harvest Method
+                        </Text>
+                        <TextInput
+                            className="ml-2 py-4 text-lg w-[90%] border rounded-lg p-4"
+                            placeholder="Method of Harvest"
+                            value={formData.harvestMethod}
+                            onChangeText={(text) =>
+                                handleInputChange("harvestMethod", text)
+                            }
+                        />
+                    </View>
+
+                    <View className="w-full">
+                        <Text className="mb-2 text-lg font-semibold">
+                            Quantity Harvested (kg)
+                        </Text>
+                        <TextInput
+                            className="ml-2 py-4 text-lg w-[90%] border rounded-lg p-4"
+                            placeholder="Quantity in KG"
+                            value={formData.quantity}
+                            onChangeText={(text) =>
+                                handleInputChange("quantity", text)
                             }
                         />
                     </View>
